@@ -1,0 +1,37 @@
+{
+  "name": "w06wch-david-galvez-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-dev": "nodemon -q .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidGalGom/W06WCH-Back-david-galvez.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavidGalGom/W06WCH-Back-david-galvez/issues"
+  },
+  "homepage": "https://github.com/DavidGalGom/W06WCH-Back-david-galvez#readme",
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.14"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "debug": "^4.3.2",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
+}
