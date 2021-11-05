@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node .",
     "start-dev": "nodemon -q .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
