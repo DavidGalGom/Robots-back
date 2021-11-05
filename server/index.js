@@ -13,7 +13,7 @@ const initializeServer = (port) => {
   });
 
   server.on("error", (error) => {
-    debug(chalk.red("Error at initializ server"));
+    debug(chalk.red("Error at initialize server"));
     if (error.code === "EADDRINUSE") {
       debug(chalk.red(`Port number ${port} is already in use`));
     }
