@@ -115,4 +115,26 @@ describe("Given a getRobotById function", () => {
       expect(res.json).toHaveBeenCalledWith(BB8);
     });
   });
+
+  describe("When a id arrives and there isn't in the database", () => {
+    test("Then it should arrive a 404 code", async () => {
+      const error = new Error("Robot not found");
+      Robot.findById = jest.fn().mockResolvedValue(null);
+      const idRobot = 10;
+      const req = {
+        params: {
+          idRobot,
+        },
+      };
+      const res = {
+        json: () => {},
+      };
+      const next = jest.fn();
+
+      await getRobotById(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
 });
