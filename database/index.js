@@ -12,7 +12,7 @@ const connectDB = () =>
         reject();
         return;
       }
-      debug(chalk.green("Conected to the data base"));
+      debug(chalk.green("Connected to the data base"));
       resolve();
     });
   });
