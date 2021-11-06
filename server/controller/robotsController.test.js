@@ -33,4 +33,18 @@ describe("Given a Robot function", () => {
       expect(res.json).toHaveBeenCalledWith(robots);
     });
   });
+  describe("When it receives a getRobots function", () => {
+    test("Then it should summon the Robot.find", async () => {
+      Robot.find = jest.fn().mockResolvedValue({});
+
+      const res = {
+        json: () => {},
+      };
+      const next = () => {};
+
+      await getRobots(null, res, next);
+
+      expect(Robot.find).toHaveBeenCalled();
+    });
+  });
 });
