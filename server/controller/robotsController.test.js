@@ -1,5 +1,7 @@
 const Robot = require("../../database/models/robot");
-const { getRobots } = require("./robotsController");
+const { getRobots, getRobotById } = require("./robotsController");
+
+jest.mock("../../database/models/robot");
 
 describe("Given a Robot function", () => {
   describe("When it receives an object res", () => {
@@ -45,6 +47,72 @@ describe("Given a Robot function", () => {
       await getRobots(null, res, next);
 
       expect(Robot.find).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given a getRobotById function", () => {
+  describe("When it receives a request with an id 1, a res object and a next function", () => {
+    test("Then it should summon Robot.findById with a 1", async () => {
+      Robot.findById = jest.fn().mockResolvedValue({});
+      const idRobot = 1;
+      const req = {
+        params: {
+          idRobot,
+        },
+      };
+      const res = {
+        json: () => {},
+      };
+      const next = () => {};
+
+      await getRobotById(req, res, next);
+
+      expect(Robot.findById).toHaveBeenCalledWith(idRobot);
+    });
+  });
+
+  describe("And Robot.findById rejects", () => {
+    test("Then it should summon next function with the error rejected", async () => {
+      const error = {};
+      Robot.findById = jest.fn().mockRejectedValue(error);
+      const req = {
+        params: {
+          idRobot: 1,
+        },
+      };
+      const res = {};
+      const next = jest.fn();
+
+      await getRobotById(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+  describe("And Robot.findById resolves to BB8", () => {
+    test("Then it should summon res.json with BB8", async () => {
+      const id = 1;
+      const BB8 = {
+        id,
+        name: "BB8",
+        image: "image.png",
+        speed: 10,
+        resistance: 10,
+        creationDate: "05/11/2021",
+      };
+      Robot.findById = jest.fn().mockResolvedValue(BB8);
+      const req = {
+        params: {
+          id,
+        },
+      };
+      const res = {
+        json: jest.fn(),
+      };
+
+      await getRobotById(req, res);
+
+      expect(res.json).toHaveBeenCalledWith(BB8);
     });
   });
 });
