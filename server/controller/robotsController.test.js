@@ -220,4 +220,22 @@ describe("Given a deleteRobot function", () => {
       expect(Robot.findByIdAndDelete).toHaveBeenCalledWith(idRobot);
     });
   });
+
+  describe("And Robot.findByIdAndDelete returns undefined", () => {
+    test("Then it should call next with an error", async () => {
+      const error = new Error("Robot not found");
+      Robot.findByIdAndDelete = jest.fn().mockResolvedValue(undefined);
+      const req = {
+        params: {
+          id: 1,
+        },
+      };
+      const res = {};
+      const next = jest.fn();
+
+      await deleteRobot(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
 });
