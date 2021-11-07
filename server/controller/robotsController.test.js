@@ -1,5 +1,10 @@
 const Robot = require("../../database/models/robot");
-const { getRobots, getRobotById, postRobot } = require("./robotsController");
+const {
+  getRobots,
+  getRobotById,
+  postRobot,
+  deleteRobot,
+} = require("./robotsController");
 
 jest.mock("../../database/models/robot");
 const mockResponse = () => {
@@ -192,6 +197,27 @@ describe("Given the createRobot function", () => {
       await postRobot(req, res, next);
 
       expect(next).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given a deleteRobot function", () => {
+  describe("When it receives a request with an id 1, a response and a next function", () => {
+    test("Then it should call the Robot.findByIdAndDelete with a 1", async () => {
+      const idRobot = 1;
+      const req = {
+        params: {
+          idRobot,
+        },
+      };
+      const res = {
+        json: () => {},
+      };
+      const next = () => {};
+      Robot.findByIdAndDelete = jest.fn().mockResolvedValue({});
+
+      await deleteRobot(req, res, next);
+      expect(Robot.findByIdAndDelete).toHaveBeenCalledWith(idRobot);
     });
   });
 });
