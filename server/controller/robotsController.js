@@ -34,8 +34,27 @@ const postRobot = async (req, res, next) => {
   }
 };
 
+const deleteRobot = async (req, res, next) => {
+  const { idRobot } = req.params;
+  try {
+    const deletedRobot = await Robot.findByIdAndDelete(idRobot);
+    if (deletedRobot) {
+      res.json({ id: deletedRobot.id });
+    } else {
+      const error = new Error("Robot not found");
+      error.code = 404;
+      next(error);
+    }
+  } catch (error) {
+    error.code = 400;
+    error.message = "Bad Request!";
+    next(error);
+  }
+};
+
 module.exports = {
   getRobots,
   getRobotById,
   postRobot,
+  deleteRobot,
 };
