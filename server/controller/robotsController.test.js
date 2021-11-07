@@ -1,7 +1,13 @@
 const Robot = require("../../database/models/robot");
-const { getRobots, getRobotById } = require("./robotsController");
+const { getRobots, getRobotById, postRobot } = require("./robotsController");
 
 jest.mock("../../database/models/robot");
+const mockResponse = () => {
+  const res = {};
+  res.status = jest.fn().mockReturnValue(res);
+  res.json = jest.fn().mockReturnValue(res);
+  return res;
+};
 
 describe("Given a Robot function", () => {
   describe("When it receives an object res", () => {
@@ -135,6 +141,57 @@ describe("Given a getRobotById function", () => {
 
       expect(next).toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+});
+
+describe("Given the createRobot function", () => {
+  describe("When it receives a resolve", () => {
+    test("Then it should create the new robot", async () => {
+      const req = {
+        id: 2,
+        name: "EVA-01",
+        image: "image2.png",
+        speed: 10,
+        resistance: 10,
+        creationDate: "05/11/2021",
+      };
+      const result = {
+        id: 2,
+        name: "EVA-01",
+        image: "image2.png",
+        speed: 10,
+        resistance: 10,
+        creationDate: "05/11/2021",
+      };
+
+      const res = mockResponse();
+
+      Robot.create = jest.fn().mockResolvedValue(result);
+      await postRobot(req, res, () => {});
+
+      expect(res.json).toHaveBeenCalledWith(result);
+    });
+  });
+
+  describe("When it receives a rejected promise", () => {
+    test("Then it should summon the method next with a error", async () => {
+      const req = {
+        id: "1",
+        name: "Robot",
+        image: "robot.jpg",
+        speed: 1,
+        resistence: 1,
+        creationDate: "unknown",
+      };
+
+      Robot.create = jest.fn().mockRejectedValue({});
+      const next = jest.fn();
+
+      const res = mockResponse();
+      await postRobot(req, res, next);
+
+      expect(next).toHaveBeenCalled();
     });
   });
 });
