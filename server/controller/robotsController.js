@@ -22,7 +22,20 @@ const getRobotById = async (req, res, next) => {
   }
 };
 
+const postRobot = async (req, res, next) => {
+  try {
+    const robot = req.body;
+    const newRobot = await Robot.create(robot);
+    res.json(newRobot);
+  } catch (error) {
+    error.code = 400;
+    error.message = "Bad request";
+    next(error);
+  }
+};
+
 module.exports = {
   getRobots,
   getRobotById,
+  postRobot,
 };
