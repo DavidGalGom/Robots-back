@@ -3,8 +3,10 @@ const cors = require("cors");
 const debug = require("debug")("robots:server");
 const express = require("express");
 const morgan = require("morgan");
+const auth = require("./middleware/auth");
 const { notFoundErrorHandler, generalErrorHandler } = require("./error");
 const robotsRoutes = require("./routes/robotsRoutes");
+const usersRoutes = require("./routes/usersRoutes");
 
 const app = express();
 
@@ -24,7 +26,8 @@ const initializeServer = (port) => {
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
-app.use("/robots", robotsRoutes);
+app.use("/users", usersRoutes);
+app.use("/robots", auth, robotsRoutes);
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
 
