@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../../database/models/user");
 
 const addUser = async (req, res) => {
@@ -14,9 +15,21 @@ const checkUser = async (req, res, next) => {
   try {
     const currentUser = await User.findOne({ userName });
     if (currentUser) {
-      const currentPassword = await User.findOne({ password });
+      const currentPassword = await bcrypt.compare(
+        password,
+        currentUser.password
+      );
       if (currentPassword) {
-        const token = process.env.USER_CHECK_TOKEN;
+        const token = jwt.sign(
+          {
+            id: currentUser.id,
+            userName: currentUser.userName,
+          },
+          process.env.USER_CHECK_TOKEN,
+          {
+            expiresIn: 86400,
+          }
+        );
         res.json(token);
       } else {
         const error = new Error("Authentication failed");
