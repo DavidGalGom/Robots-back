@@ -1,8 +1,8 @@
 const Robot = require("../../database/models/robot");
 
 const getRobots = async (req, res) => {
-  const pets = await Robot.find();
-  res.json(pets);
+  const robots = await Robot.find();
+  res.json(robots);
 };
 
 const getRobotById = async (req, res, next) => {
