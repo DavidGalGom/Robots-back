@@ -186,7 +186,7 @@ describe("Given the createRobot function", () => {
         name: "Robot",
         image: "robot.jpg",
         speed: 1,
-        resistence: 1,
+        resistance: 1,
         creationDate: "unknown",
       };
 
